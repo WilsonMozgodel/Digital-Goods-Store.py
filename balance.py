@@ -2,7 +2,7 @@ import requests, sys
 from requests.exceptions import ConnectTimeout, ReadTimeout
 
 url = 'https://aaio.io/api/balance'
-api_key = 'MGU2OTliOWMtMDgxMi00Zjc0LWI2MmEtNjI4NzNlYzY2N2ZhOiR3c01WWl4zMWZ6T0ZEcGQhelduQSV0QkV1I2xeSmxq' # Ключ API из раздела https://aaio.io/cabinet/api
+api_key = 'YOUR_API_TOKEN' # Ключ API из раздела https://aaio.io/cabinet/api
 
 headers = {
     'Accept': 'application/json',
