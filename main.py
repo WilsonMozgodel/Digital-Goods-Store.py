@@ -12,16 +12,9 @@ import uuid
 import threading
 from payment import process_payment, process_payment2, process_payment3, process_payment4, tg_pay, spotik
 
-
 bot = TeleBot('6709558983:AAFTU6vRTN4sNnvvWaYRzZf5_Fuib0DXZ4c')
 
 order_numbers = {}
-
-'''gifts = []
-with open("gifts.txt", "r") as file:
-    gifts = file.read().splitlines()
-
-user_last_claim = {}'''
 
 @bot.message_handler(commands=['start'])
 def main(message):
@@ -31,10 +24,8 @@ def main(message):
     button1 = types.KeyboardButton('🆘 | Техподдержка')
     button4 = types.KeyboardButton('👻 | Контакты разработчиков')
     button5 = types.KeyboardButton('🍬 | Правила')
-    #button6 = types.KeyboardButton('🎁| Бесплатный подарок')
     markup.row(button3, button, button1,)
     markup.row(button4, button5)
-    #markup.row(button6)
 
     bot.send_message(
         message.chat.id,
@@ -42,28 +33,12 @@ def main(message):
         reply_markup=markup,
         parse_mode="MarkdownV2"
     )
-
     p = open('ds.png', 'rb')
     bot.send_photo(message.chat.id, p)
 
 @bot.message_handler(func=lambda message: not message.text in ['/start', '🧊 | О магазине', '💰 | Купить товар', '🆘 | Техподдержка', '👻 | Контакты разработчиков', '🍬 | Правила', '🎁| Бесплатный подарок'])
 def handle_unknown_command(message):
     bot.send_message(message.chat.id, "Извините, я вас не понял👾\nВоспользуйтесь списком команд или напишите /start.")
-
-
-'''@bot.message_handler(func=lambda message: message.text == "🎁| Бесплатный подарок")
-
-def handle_start(message):
-    bot.send_chat_action(message.chat.id, 'typing')
-    user_id = message.from_user.id
-    if user_id in user_last_claim and time.time() - user_last_claim[user_id] < 86400:
-        last_claim_time = datetime.fromtimestamp(user_last_claim[user_id]) + timedelta(seconds=86400)
-        bot.send_message(user_id, f"➖➖➖➖➖➖➖➖➖➖➖➖\nВы уже забрали подарок сегодня.\nВы сможете попробовать завтра после {last_claim_time.strftime('%H:%M')}.")
-    else:
-        user_last_claim[user_id] = time.time()
-        gift = random.choice(gifts)
-        bot.send_message(user_id, f"➖➖➖➖➖➖➖➖➖➖➖➖\nВаш подарок:\n{gift}")'''
-
 
 @bot.message_handler(func=lambda message: message.text == "👻 | Контакты разработчиков")
 def about(message):
@@ -87,7 +62,6 @@ def about(message):
     bot.send_chat_action(message.chat.id, 'typing')
     bot.send_message(message.chat.id, w)
 
-
 @bot.message_handler(content_types=["text"])
 def default_test(message):
     bot.send_chat_action(message.chat.id, 'typing')
@@ -99,11 +73,8 @@ def default_test(message):
     keyboard.add(callback_button2, callback_button3)
     bot.send_message(message.chat.id, "Можешь купить такие позиции:", reply_markup=keyboard)
 
-
-
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
-    # Если сообщение из чата с ботом
     if call.message:
         if call.data == "test2":
             keyboard = types.InlineKeyboardMarkup()
@@ -124,7 +95,6 @@ def callback_inline(call):
             bot.send_photo(call.message.chat.id, tgf)
             bot.send_message(call.message.chat.id, "➖➖➖➖➖➖➖➖➖➖➖➖\n📃Товар: Spotify Premium\n💰Цена: 249 ₽ ", reply_markup=keyboard)
             
-        
         elif call.data == 'spotify1':
             keyboard = types.InlineKeyboardMarkup()
             callback_button = types.InlineKeyboardButton(text="Назад🔙", callback_data="back")
@@ -135,10 +105,7 @@ def callback_inline(call):
             order_number = random.randint(1000000, 1000000000)
             order_numbers[call.message.chat.id] = order_number
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text=f"➖➖➖➖➖➖➖➖➖➖➖➖\n📃 Товар: Spotify Premium🥎 | 1 month\n💰 Цена: 249 ₽\n📦 Кол-во: 1 шт.\n💡 Заказ: {order_number}\n🕐 Время заказа: {formatted_time}\n\n\n⚠️ Внимание просим вас быть бдительными так как данный сервис как и другие наши сервиса берут комиссию за платёж ! Мы будем делать всё возможное, что-бы комиссия была меньше\n➖➖➖➖➖➖➖➖➖➖➖➖", reply_markup=keyboard)
-
-            
-            
-        
+ 
         elif call.data == "test3":
             keyboard = types.InlineKeyboardMarkup()
             callback_button = types.InlineKeyboardButton(text="Назад🔙", callback_data="back")
@@ -154,7 +121,7 @@ def callback_inline(call):
             ds = open('discord.png', 'rb')
             bot.send_photo(call.message.chat.id, ds)
             bot.send_message(call.message.chat.id, "➖➖➖➖➖➖➖➖➖➖➖➖\nDiscord Nitro\nЦены смотри на фото! 👆", reply_markup=keyboard)
-
+            
         elif call.data == 'ds1':
             keyboard = types.InlineKeyboardMarkup()
             callback_button = types.InlineKeyboardButton(text="Назад🔙", callback_data="back")
@@ -199,8 +166,6 @@ def callback_inline(call):
             order_numbers[call.message.chat.id] = order_number
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text=f"➖➖➖➖➖➖➖➖➖➖➖➖\n📃 Товар: 🍄Dicsord Nitro | Full year\n💰 Цена: 2999 ₽\n📦 Кол-во: 1 шт.\n💡 Заказ: {order_number}\n🕐 Время заказа: {formatted_time}\n\n\n⚠️ Внимание просим вас быть бдительными так как данный сервис как и другие наши сервиса берут комиссию за платёж ! Мы будем делать всё возможное, что-бы комиссия была меньше\n➖➖➖➖➖➖➖➖➖➖➖➖", reply_markup=keyboard)
 
-        
-            #tg
         elif call.data == 'buy1':
             keyboard = types.InlineKeyboardMarkup()
             callback_button = types.InlineKeyboardButton(text="Назад🔙", callback_data="back")
@@ -212,8 +177,7 @@ def callback_inline(call):
             order_numbers[call.message.chat.id] = order_number
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text=f'➖➖➖➖➖➖➖➖➖➖➖➖\n📃 Товар: 🍄Telegram Premium\n💰 Цена: 275 ₽\n📦 Кол-во: 1 шт.\n💡 Заказ: {order_number}\n🕐 Время заказа: {formatted_time}\n\n\n⚠️ Внимание просим вас быть бдительными так как данный сервис как и другие наши сервиса берут комиссию за платёж ! Мы будем делать всё возможное, что-бы комиссия была меньше\n➖➖➖➖➖➖➖➖➖➖➖➖', reply_markup=keyboard)
 
-
-
+        
         elif call.data == 'boughtDS1':
             order_number = order_numbers.get(call.message.chat.id)  # Получение номера заказа для данного чата
             process_payment(bot, call, order_number)
@@ -264,8 +228,6 @@ def callback_inline(call):
             order_number = order_numbers.get(call.message.chat.id)
             bot.send_message(call.message.chat.id, f'Заказ \#`{order_number}` был отменен', parse_mode='MarkdownV2')
             
-
-
         elif call.data == "back":
             keyboard = types.InlineKeyboardMarkup()
             callback_button1 = types.InlineKeyboardButton(text="Telegram Premium🌟", callback_data="test2")
@@ -275,12 +237,4 @@ def callback_inline(call):
             keyboard.add(callback_button2, callback_button3)
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="Можешь купить такие позиции:", reply_markup=keyboard)
 
-
 bot.polling(none_stop=True)
-
-
-
-
-
-
-
